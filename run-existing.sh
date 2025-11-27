@@ -59,8 +59,10 @@ for agent in "${AGENTS[@]}"; do
     # tmux 세션 생성
     tmux new-session -d -s "$agent" -c "$AGENT_DIR"
 
-    # claude 명령어를 시스템 프롬프트와 함께 실행
-    tmux send-keys -t "$agent:0" "claude --system-prompt \"\$(cat CLAUDE.md)\"" Enter
+    # claude 명령어를 시스템 프롬프트와 함께 실행 (메시지와 Enter 분리)
+    tmux send-keys -t "$agent:0" "claude --system-prompt \"\$(cat CLAUDE.md)\""
+    sleep 0.2
+    tmux send-keys -t "$agent:0" C-m
 
     echo "  ✓ $agent 세션 시작"
     sleep 0.3

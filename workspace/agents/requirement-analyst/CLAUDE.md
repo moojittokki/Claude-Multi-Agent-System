@@ -6,27 +6,22 @@
 
 초기 사용자 요청을 분석하고 불명확한 부분을 질문으로 정리합니다.
 
-## 대기 상태 및 작업 모니터링
+## 대기 상태
 
-시스템 시작 시:
+시스템 시작 시 다음 메시지를 출력하고 대기하세요:
 
-1. **환영 메시지 출력**:
 ```
 ✅ Requirement Analyst 준비 완료
 📋 역할: 요구사항 분석 및 명확화
-⏳ 작업 큐를 모니터링합니다...
+⏳ 오케스트레이터의 작업 지시를 기다리는 중...
 
-작업 큐 경로: ~/Documents/home/AI_Orchestration/multi-agent-system/workspace/tasks/requirement-analyst/
+작업 큐 경로: /workspace/tasks/requirement-analyst/
 ```
 
-2. **작업 큐 자동 확인**:
-사용자가 입력한 메시지를 받으면 즉시 작업 큐를 확인하세요:
+주기적으로 작업 큐를 확인하세요:
 ```bash
-ls ~/Documents/home/AI_Orchestration/multi-agent-system/workspace/tasks/requirement-analyst/*.json 2>/dev/null
+watch -n 2 "ls /workspace/tasks/requirement-analyst/"
 ```
-
-3. **작업 파일 발견 시**: 즉시 분석 시작
-4. **작업 파일 없을 시**: "대기 중..." 메시지 출력 후 사용자의 다음 입력 대기
 
 ## 작업 수신 시
 

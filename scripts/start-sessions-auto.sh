@@ -30,7 +30,10 @@ for agent in "${AGENTS[@]}"; do
     tmux new-session -d -s "$agent" -c "$AGENT_DIR"
 
     # claude 명령어를 시스템 프롬프트와 함께 실행 (자동화 모드)
-    tmux send-keys -t "$agent:0" "claude --dangerously-skip-permissions --system-prompt \"\$(cat CLAUDE.md)\"" Enter
+    # 메시지와 Enter를 분리하여 전송 (버퍼 문제 방지)
+    tmux send-keys -t "$agent:0" "claude --dangerously-skip-permissions --append-system-prompt \"\$(cat CLAUDE.md)\""
+    sleep 0.2
+    tmux send-keys -t "$agent:0" C-m
 
     echo "  ✓ $agent 세션 시작 (자동화 모드)"
     sleep 0.3

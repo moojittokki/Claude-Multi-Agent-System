@@ -21,31 +21,36 @@ echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 
 # 1. 워크스페이스 디렉토리 생성
-echo -e "${YELLOW}[1/5]${NC} 워크스페이스 초기화 중..."
+echo -e "${YELLOW}[1/6]${NC} 워크스페이스 초기화 중..."
 bash "$SCRIPT_DIR/scripts/setup-workspace.sh"
 echo -e "${GREEN}✓${NC} 워크스페이스 준비 완료"
 echo ""
 
-# 2. 각 에이전트 디렉토리 및 CLAUDE.md 생성
-echo -e "${YELLOW}[2/5]${NC} 에이전트 환경 설정 중..."
+# 2. 이전 작업 결과물 정리
+echo -e "${YELLOW}[2/6]${NC} 이전 작업 결과물 정리 중..."
+bash "$SCRIPT_DIR/scripts/clean-workspace.sh"
+echo ""
+
+# 3. 각 에이전트 디렉토리 및 CLAUDE.md 생성
+echo -e "${YELLOW}[3/6]${NC} 에이전트 환경 설정 중..."
 bash "$SCRIPT_DIR/scripts/setup-agents.sh"
 echo -e "${GREEN}✓${NC} 모든 에이전트 준비 완료"
 echo ""
 
-# 3. 기존 tmux 세션 정리
-echo -e "${YELLOW}[3/5]${NC} 기존 세션 정리 중..."
+# 4. 기존 tmux 세션 정리
+echo -e "${YELLOW}[4/6]${NC} 기존 세션 정리 중..."
 bash "$SCRIPT_DIR/scripts/cleanup-sessions.sh"
 echo -e "${GREEN}✓${NC} 정리 완료"
 echo ""
 
-# 4. 모든 에이전트 tmux 세션 시작
-echo -e "${YELLOW}[4/5]${NC} 에이전트 세션 시작 중..."
+# 5. 모든 에이전트 tmux 세션 시작
+echo -e "${YELLOW}[5/6]${NC} 에이전트 세션 시작 중..."
 bash "$SCRIPT_DIR/scripts/start-sessions.sh"
 echo -e "${GREEN}✓${NC} 모든 세션 시작 완료"
 echo ""
 
-# 5. 상태 확인
-echo -e "${YELLOW}[5/5]${NC} 시스템 상태 확인 중..."
+# 6. 상태 확인
+echo -e "${YELLOW}[6/6]${NC} 시스템 상태 확인 중..."
 sleep 2
 
 SESSIONS=$(tmux list-sessions 2>/dev/null | grep -E "(orchestrator|requirement-analyst|ux-designer|tech-architect|planner|test-designer|developer|reviewer|documenter)" | wc -l)

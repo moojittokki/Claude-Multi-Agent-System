@@ -31,6 +31,6 @@ tmux send-keys -t "$AGENT_NAME:0" "$MESSAGE"
 sleep 0.5
 
 # 4. Enter 전송
-tmux send-keys -t "$AGENT_NAME:0" Enter
+tmux send-keys -t "$AGENT_NAME:0" C-m
 
 echo "✓ [$AGENT_NAME] 알림 전송 완료"

@@ -31,8 +31,10 @@ agent_label=$(echo "${AGENTS[0]}" | cut -d: -f2)
 
 tmux new-session -d -s "$SESSION_NAME" -n "agents"
 
-# 첫 번째 pane에서 orchestrator 세션 모니터링
-tmux send-keys -t "$SESSION_NAME:0.0" "watch -n 1 -t 'echo \"$agent_label\"; echo \"\"; tmux capture-pane -t $agent_name -p -S -30'" Enter
+# 첫 번째 pane에서 orchestrator 세션 모니터링 (메시지와 Enter 분리)
+tmux send-keys -t "$SESSION_NAME:0.0" "watch -n 1 -t 'echo \"$agent_label\"; echo \"\"; tmux capture-pane -t $agent_name -p -S -30'"
+sleep 0.1
+tmux send-keys -t "$SESSION_NAME:0.0" C-m
 
 # 나머지 에이전트들을 위한 pane 생성
 for i in {1..8}; do
@@ -43,8 +45,10 @@ for i in {1..8}; do
     tmux split-window -t "$SESSION_NAME:0"
     tmux select-layout -t "$SESSION_NAME:0" tiled
 
-    # 새로 만든 pane에서 해당 에이전트 세션 모니터링
-    tmux send-keys -t "$SESSION_NAME:0.$i" "watch -n 1 -t 'echo \"$agent_label\"; echo \"\"; tmux capture-pane -t $agent_name -p -S -30'" Enter
+    # 새로 만든 pane에서 해당 에이전트 세션 모니터링 (메시지와 Enter 분리)
+    tmux send-keys -t "$SESSION_NAME:0.$i" "watch -n 1 -t 'echo \"$agent_label\"; echo \"\"; tmux capture-pane -t $agent_name -p -S -30'"
+    sleep 0.1
+    tmux send-keys -t "$SESSION_NAME:0.$i" C-m
 done
 
 # 타일 레이아웃으로 정리
