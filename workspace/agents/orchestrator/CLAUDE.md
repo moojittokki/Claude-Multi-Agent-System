@@ -39,12 +39,6 @@ mkdir -p "$PROJECT_PATH"
 while [ ! -f /workspace/signals/done ]; do
     sleep 5
 done
-
-# ❌ 잘못된 방법 (토큰 낭비)
-while [ ! -f /workspace/signals/done ]; do
-    echo "대기 중... (${SECONDS}초)"  # 이런 출력 금지!
-    sleep 5
-done
 ```
 
 ### 4. 타임아웃 설정
@@ -195,10 +189,6 @@ STATE
 
 # 2. 사용자에게 안내 후 /clear 실행
 ```
-
-/clear 후 첫 동작:
-1. `/workspace/state/orchestrator-state.json` 읽기
-2. 해당 Phase부터 재개
 
 ## 중요 규칙
 

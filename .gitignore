@@ -18,7 +18,33 @@ workspace/signals/*
 # Status files (runtime)
 workspace/status/*
 
+# Artifacts (runtime generated)
+workspace/artifacts/*
+
+# User input files (runtime)
+workspace/input/*
+
+# Task files (runtime)
+workspace/tasks/**/*.json
+
+# Output files (runtime generated)
+workspace/output/*
+
+# Project files (user projects)
+workspace/project/*
+
+# Review files (runtime)
+workspace/reviews/*
+
+# State files (runtime)
+workspace/state/*
+
 # Keep directories
 !workspace/logs/.gitkeep
 !workspace/signals/.gitkeep
 !workspace/status/.gitkeep
+!workspace/artifacts/.gitkeep
+!workspace/input/.gitkeep
+!workspace/output/.gitkeep
+!workspace/project/.gitkeep
+!workspace/state/.gitkeep
