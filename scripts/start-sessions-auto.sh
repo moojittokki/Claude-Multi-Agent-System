@@ -20,6 +20,15 @@ echo "에이전트 세션 시작 중 (자동화 모드)..."
 for agent in "${AGENTS[@]}"; do
     AGENT_DIR="$AGENTS_DIR/$agent"
     tmux new-session -d -s "$agent" -c "$AGENT_DIR"
+
+    # 상태 표시줄에 조작법 힌트 표시
+    tmux set-option -t "$agent" status on
+    tmux set-option -t "$agent" status-style "bg=red,fg=white"
+    tmux set-option -t "$agent" status-left "[$agent] (Auto) "
+    tmux set-option -t "$agent" status-left-length 30
+    tmux set-option -t "$agent" status-right " Ctrl+b,d:메뉴로 돌아가기 "
+    tmux set-option -t "$agent" status-right-length 30
+
     echo "  ✓ $agent 세션 생성"
 done
 

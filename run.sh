@@ -38,13 +38,11 @@ clear_screen() {
 }
 
 print_header() {
-    echo -e "${CYAN}"
-    echo "  ╔══════════════════════════════════════════════════════════════╗"
-    echo "  ║                                                              ║"
-    echo "  ║          ${BOLD}Multi-Agent Development System${NC}${CYAN}                     ║"
-    echo "  ║                                                              ║"
-    echo "  ╚══════════════════════════════════════════════════════════════╝"
-    echo -e "${NC}"
+    echo ""
+    echo -e "${CYAN}  ╔════════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}  ║       Multi-Agent System               ║${NC}"
+    echo -e "${CYAN}  ╚════════════════════════════════════════╝${NC}"
+    echo ""
 }
 
 print_menu() {
@@ -207,23 +205,39 @@ show_session_monitor() {
         echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         echo ""
         if [ "$mode" = "terminal" ]; then
-            echo -e "  ${GREEN}1)${NC} Orchestrator 세션 접속"
-            echo -e "  ${GREEN}2)${NC} 모든 에이전트 보기 (3x3 그리드)"
+            echo -e "  ${GREEN}1)${NC} Orchestrator      ${GREEN}4)${NC} Tech Architect   ${GREEN}7)${NC} Developer"
+            echo -e "  ${GREEN}2)${NC} Requirement       ${GREEN}5)${NC} Planner          ${GREEN}8)${NC} Reviewer"
+            echo -e "  ${GREEN}3)${NC} UX Designer       ${GREEN}6)${NC} Test Designer    ${GREEN}9)${NC} Documenter"
+            echo ""
+            echo -e "  ${GREEN}0)${NC} 모든 에이전트 보기 (3x3 그리드)"
+            echo ""
+            echo -e "  ${MAGENTA}💡 세션에서 이 메뉴로 돌아오기: Ctrl+b, d${NC}"
+            echo ""
         fi
         echo -e "  ${YELLOW}s)${NC} 상태 새로고침"
         echo -e "  ${RED}q)${NC} 세션 종료 및 메인 메뉴로"
         echo ""
         echo -n "  선택: "
 
+        # Agent list for quick access
+        local agent_list=("orchestrator" "requirement-analyst" "ux-designer" "tech-architect" "planner" "test-designer" "developer" "reviewer" "documenter")
+
         # Read with timeout for auto-refresh
         if read -t 10 -r choice; then
             case $choice in
-                1)
+                [1-9])
                     if [ "$mode" = "terminal" ]; then
-                        tmux attach-session -t orchestrator 2>/dev/null || echo -e "${RED}Orchestrator 세션이 없습니다${NC}"
+                        local idx=$((choice - 1))
+                        local agent="${agent_list[$idx]}"
+                        if tmux has-session -t "$agent" 2>/dev/null; then
+                            tmux attach-session -t "$agent"
+                        else
+                            echo -e "${RED}$agent 세션이 없습니다${NC}"
+                            sleep 1
+                        fi
                     fi
                     ;;
-                2)
+                0)
                     if [ "$mode" = "terminal" ]; then
                         bash "$SCRIPTS_DIR/view-all-agents.sh"
                     fi
