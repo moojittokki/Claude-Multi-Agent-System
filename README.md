@@ -1,5 +1,8 @@
 # Multi-Agent Development System
 
+<img width="2032" height="1162" alt="image" src="https://github.com/user-attachments/assets/cbc73a73-597b-4fe8-8a01-cab8cd0d357b" />
+
+
 AI 에이전트들이 협업하여 소프트웨어 개발을 자동화하는 시스템입니다.
 
 ## 시스템 구조
