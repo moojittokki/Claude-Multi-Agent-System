@@ -4,7 +4,7 @@
 `/Users/k/Documents/home/AI_Orchestration/multi-agent-system/workspace/project/agent-dashboard/`
 
 ## 배경
-현재 에이전트 카드에서 컨텍스트 메뉴를 통해 에이전트(tmux session 및 claude code)를 종료/실행할 수 있습니다. 하지만 종료 후에도 에이전트 카드에서 "대기 중"으로 표시되는 문제가 있습니다.
+현재 에이전트 카드에서 컨텍스트 메뉴를 통해 에이전트(tmux session 및 Gemini CLI)를 종료/실행할 수 있습니다. 하지만 종료 후에도 에이전트 카드에서 "대기 중"으로 표시되는 문제가 있습니다.
 
 ## 요구사항
 

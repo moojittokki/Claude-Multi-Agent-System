@@ -1117,7 +1117,7 @@ body {
     border-left: 3px solid var(--status-working);
 }
 
-.agent-claude-md h3 {
+.agent-gemini-md h3 {
     font-size: 14px;
     color: var(--text-primary);
     margin-bottom: var(--space-sm);
@@ -1125,7 +1125,7 @@ body {
     border-bottom: 1px solid var(--border-color);
 }
 
-.agent-claude-md pre {
+.agent-gemini-md pre {
     background-color: var(--bg-terminal);
     padding: var(--space-md);
     border-radius: 4px;

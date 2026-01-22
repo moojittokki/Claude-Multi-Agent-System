@@ -167,8 +167,8 @@ tail -f workspace/logs/orchestrator.log
 # 1. tmux 실행 확인
 tmux -V
 
-# 2. claude 명령어 확인
-which claude
+# 2. gemini 명령어 확인
+which gemini
 
 # 3. 권한 확인
 ls -la run.sh scripts/
@@ -382,10 +382,10 @@ workspace/
 
 ## 트러블슈팅 FAQ
 
-**Q: "claude: command not found"**
+**Q: "gemini: command not found"**
 ```bash
-# Claude CLI 설치
-npm install -g @anthropic-ai/claude-code
+# Gemini CLI 설치
+npm install -g @google/gemini-cli
 ```
 
 **Q: tmux 세션이 너무 많아요**
@@ -412,14 +412,14 @@ cat workspace/status/*.status
 - 중간 복잡도: ~$3-$10
 - 복잡한 프로젝트: ~$10-$50
 
-(Claude API 요금 기준, 2025년)
+(Gemini API 요금 기준, 2025년)
 ```
 
 ## 다음 단계
 
 ✅ 데모 완료했다면:
 1. 실제 프로젝트 시도
-2. CLAUDE.md 커스터마이징
+2. GEMINI.md 커스터마이징
 3. 워크플로우 조정
 4. 자동화 레벨 최적화
 

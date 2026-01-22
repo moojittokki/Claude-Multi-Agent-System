@@ -253,12 +253,12 @@ done
 ### 새 에이전트 추가
 
 1. `scripts/setup-agents.sh`에 에이전트 추가
-2. CLAUDE.md 작성
+2. GEMINI.md 작성
 3. Orchestrator 워크플로우에 통합
 
 ### 워크플로우 커스터마이징
 
-Orchestrator의 CLAUDE.md를 수정하여:
+Orchestrator의 GEMINI.md를 수정하여:
 - 단계 추가/제거
 - 승인 포인트 조정
 - 병렬 실행 설정
@@ -346,9 +346,9 @@ cat workspace/logs/last_completed_phase.txt
 ## 알려진 제약사항
 
 1. **동시 프로젝트**: 현재 1개만 지원
-2. **네트워크**: Claude API 의존
+2. **네트워크**: Gemini API 의존
 3. **메모리**: 큰 프로젝트는 메모리 소모
-4. **비용**: Claude API 호출 비용
+4. **비용**: Gemini API 호출 비용
 
 ## 향후 개선 방향
 
@@ -360,6 +360,6 @@ cat workspace/logs/last_completed_phase.txt
 
 ## 참고 자료
 
-- Claude API: https://docs.anthropic.com/
+- Gemini API: https://docs.anthropic.com/
 - Tmux: https://github.com/tmux/tmux
 - 맥도날드식 개발: https://yozm.wishket.com/magazine/detail/3457/

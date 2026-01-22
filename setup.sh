@@ -65,12 +65,12 @@ else
     echo -e "${RED}[MISSING]${NC} tmux - ${CYAN}brew install tmux${NC}"
 fi
 
-# Claude CLI
-if check_command claude; then
-    echo -e "${GREEN}[OK]${NC} Claude CLI: 설치됨"
+# Gemini CLI
+if check_command gemini; then
+    echo -e "${GREEN}[OK]${NC} Gemini CLI: 설치됨"
 else
-    MISSING_DEPS+=("claude")
-    echo -e "${RED}[MISSING]${NC} Claude CLI - ${CYAN}npm install -g @anthropic-ai/claude-code${NC}"
+    MISSING_DEPS+=("gemini")
+    echo -e "${RED}[MISSING]${NC} Gemini CLI - ${CYAN}npm install -g @google/gemini-cli${NC}"
 fi
 
 # ttyd (optional, for dashboard)

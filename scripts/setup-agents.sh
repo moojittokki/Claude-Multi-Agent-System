@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 에이전트 디렉토리 확인 및 생성 (CLAUDE.md는 기존 파일 사용)
+# 에이전트 디렉토리 확인 및 생성 (GEMINI.md는 기존 파일 사용)
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
@@ -30,9 +30,9 @@ for agent in "${AGENTS[@]}"; do
         echo "에이전트 디렉토리 생성: $agent"
     fi
 
-    # CLAUDE.md 존재 여부 확인
-    if [ ! -f "$AGENT_DIR/CLAUDE.md" ]; then
-        echo "⚠️  경고: $agent/CLAUDE.md 파일이 없습니다."
+    # GEMINI.md 존재 여부 확인
+    if [ ! -f "$AGENT_DIR/GEMINI.md" ]; then
+        echo "⚠️  경고: $agent/GEMINI.md 파일이 없습니다."
     fi
 done
 

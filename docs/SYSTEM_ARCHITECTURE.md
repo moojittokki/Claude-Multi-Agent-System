@@ -30,7 +30,7 @@ Multi-Agent Development System은 **9개의 독립적인 AI 에이전트**가 �
 ### 1.2 기술 스택
 
 ```
-- 에이전트 실행 환경: Claude Code CLI
+- 에이전트 실행 환경: Gemini CLI
 - 세션 관리: tmux
 - 통신 방식: 파일 시스템 (JSON, 텍스트)
 - 스크립트: Bash
@@ -61,13 +61,13 @@ Multi-Agent Development System은 **9개의 독립적인 AI 에이전트**가 �
 ```bash
 # 예: orchestrator 에이전트 시작
 tmux new-session -d -s orchestrator -c workspace/agents/orchestrator
-tmux send-keys -t orchestrator:0 "claude --dangerously-skip-permissions --append-system-prompt \"\$(cat CLAUDE.md)\""
+tmux send-keys -t orchestrator:0 "gemini --dangerously-skip-permissions --append-system-prompt \"\$(cat GEMINI.md)\""
 sleep 0.2
 tmux send-keys -t orchestrator:0 C-m
 ```
 
 **시스템 프롬프트 로딩:**
-- 각 에이전트 폴더의 `CLAUDE.md` 파일이 시스템 프롬프트로 사용됨
+- 각 에이전트 폴더의 `GEMINI.md` 파일이 시스템 프롬프트로 사용됨
 - `--append-system-prompt` 옵션으로 기본 프롬프트에 추가
 
 ---
@@ -194,7 +194,7 @@ timestamp:2025-12-10T15:30:00+09:00
             │ 10. 입력 파일 읽기
             │     USER_REQUEST=$(cat "$INPUT")
             │
-            │ 11. 요구사항 분석 수행 (Claude AI 사용)
+            │ 11. 요구사항 분석 수행 (Gemini AI 사용)
             │
             │ 12. 결과 저장
             │     cat > "$OUTPUT" << 'RESULT'
@@ -402,7 +402,7 @@ Orchestrator는 다음과 같이 **순차적으로** 각 Phase를 진행합니�
 
 **역할:** 중앙 제어, 전체 워크플로우 관리
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 중앙 제어 오케스트레이터입니다.
@@ -484,7 +484,7 @@ fi
 
 **역할:** 요구사항 분석 및 명확화
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 요구사항 분석 전문가입니다.
@@ -512,7 +512,7 @@ fi
 USER_REQUEST=$(cat "$INPUT")
 echo "분석 중: $USER_REQUEST"
 
-# 3. 요구사항 초안 작성 (Claude AI 사용)
+# 3. 요구사항 초안 작성 (Gemini AI 사용)
 # ...
 
 # 4. 결과 저장
@@ -601,7 +601,7 @@ echo "idle" > /workspace/status/requirement-analyst.status
 
 **역할:** 사용자 경험 및 인터페이스 설계
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 UX/UI 설계 전문가입니다.
@@ -676,7 +676,7 @@ SIGNAL
 
 **역할:** 기술 스택 선정 및 아키텍처 설계
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 기술 아키텍처 설계자입니다.
@@ -742,7 +742,7 @@ User Action → Event Handler → State Update → Re-render
 
 **역할:** 구현을 단계별 Iteration으로 분할
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 구현 계획 수립자입니다.
@@ -808,7 +808,7 @@ Week 2: [Iteration 3 + 테스트]
 
 **역할:** TDD 방식으로 테스트 먼저 작성
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 테스트 설계 전문가입니다.
@@ -852,7 +852,7 @@ SIGNAL
 
 **역할:** 실제 코드 구현
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 소프트웨어 개발자입니다.
@@ -909,7 +909,7 @@ SIGNAL
 
 **역할:** 코드 리뷰 및 품질 검증
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 코드 리뷰어입니다.
@@ -986,7 +986,7 @@ SIGNAL
 
 **역할:** 프로젝트 문서화
 
-**CLAUDE.md 핵심 지시문:**
+**GEMINI.md 핵심 지시문:**
 
 ```
 당신은 기술 문서 작성자입니다.
@@ -1053,7 +1053,7 @@ MAS/
 │
 ├── scripts/
 │   ├── setup-workspace.sh          # 워크스페이스 초기화
-│   ├── setup-agents.sh             # 에이전트 CLAUDE.md 생성
+│   ├── setup-agents.sh             # 에이전트 GEMINI.md 생성
 │   ├── cleanup-sessions.sh         # tmux 세션 정리
 │   ├── start-sessions.sh           # 에이전트 세션 시작
 │   ├── start-sessions-auto.sh      # 자동화 모드 세션 시작
@@ -1076,7 +1076,7 @@ MAS/
 └── workspace/
     ├── agents/                     # 각 에이전트 작업 디렉토리
     │   ├── orchestrator/
-    │   │   └── CLAUDE.md           # 시스템 프롬프트
+    │   │   └── GEMINI.md           # 시스템 프롬프트
     │   ├── requirement-analyst/
     │   ├── ux-designer/
     │   ├── tech-architect/
@@ -1135,7 +1135,7 @@ run.sh 메뉴에서 선택할 수 있는 모드:
 - `status/` - 모두 "idle"로 리셋, 프로젝트 관련 파일 삭제
 
 **영구 보관되는 디렉토리:**
-- `agents/` - 에이전트 CLAUDE.md 파일
+- `agents/` - 에이전트 GEMINI.md 파일
 - `project/` - 완성된 프로젝트 결과물
 
 ---
@@ -1146,11 +1146,11 @@ run.sh 메뉴에서 선택할 수 있는 모드:
 
 **토큰이 소모되는 시점:**
 1. 사용자가 메시지를 보낼 때
-2. Claude가 응답을 생성할 때
+2. Gemini가 응답을 생성할 때
 3. Tool을 호출하고 결과를 받을 때
 
 **토큰이 소모되지 않는 시점:**
-- Claude 세션이 단순히 살아있을 때
+- Gemini 세션이 단순히 살아있을 때
 - Bash tool 내부에서 반복문이 실행될 때 (while loop)
 
 ### 7.2 Orchestrator의 시그널 대기
@@ -1172,15 +1172,15 @@ done
 - Bash tool 완료 후 결과 반환: **1회 소모**
 
 **타임아웃:**
-- Claude가 자동으로 설정: **6분 (360초)**
+- Gemini가 자동으로 설정: **6분 (360초)**
 - 6분 안에 시그널이 오지 않으면: Bash tool 실패, 에러 반환
-- 타임아웃 발생 시: Claude가 에러 응답 생성 (토큰 소모), 이후 세션 멈춤
+- 타임아웃 발생 시: Gemini가 에러 응답 생성 (토큰 소모), 이후 세션 멈춤
 
 ### 7.3 전체 프로세스 토큰 소모 예상
 
 **단계별 에이전트 호출 횟수:**
 
-| Phase | 에이전트 | Bash tool 호출 | Claude 응답 | 예상 토큰 |
+| Phase | 에이전트 | Bash tool 호출 | Gemini 응답 | 예상 토큰 |
 |-------|----------|----------------|-------------|----------|
 | 0 | Requirement Analyst | 5회 | 2회 | ~3K |
 | 1 | Requirement Analyst (finalize) | 5회 | 1회 | ~2K |
@@ -1241,7 +1241,7 @@ tmux attach-session -t requirement-analyst
 
 **새 에이전트 추가:**
 
-1. `workspace/agents/new-agent/CLAUDE.md` 생성
+1. `workspace/agents/new-agent/GEMINI.md` 생성
 2. `scripts/setup-agents.sh`에 에이전트 추가
 3. `scripts/start-sessions.sh`에 세션 시작 로직 추가
 4. Orchestrator의 워크플로우에 Phase 추가

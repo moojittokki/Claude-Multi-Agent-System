@@ -1,7 +1,7 @@
 {
   "name": "multi-agent-system",
   "version": "1.0.0",
-  "description": "Multi-Agent System with Claude Code - Orchestrated AI agents for software development",
+  "description": "Multi-Agent System with Gemini CLI - Orchestrated AI agents for software development",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -15,7 +15,7 @@
   },
   "keywords": [
     "multi-agent",
-    "claude",
+    "gemini",
     "ai",
     "orchestration",
     "automation"

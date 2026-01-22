@@ -161,8 +161,8 @@ const server = http.createServer((req, res) => {
         }
         const agentDir = path.join(AGENTS_DIR, agentId);
         // 자동화 모드: --dangerously-skip-permissions 옵션 사용
-        const claudeCmd = `claude --dangerously-skip-permissions --model opus --append-system-prompt "\\$(cat CLAUDE.md)"`;
-        const cmd = `tmux new-session -d -s ${agentId} -c "${agentDir}" && sleep 0.2 && tmux send-keys -t ${agentId}:0 '${claudeCmd}' && sleep 0.2 && tmux send-keys -t ${agentId}:0 C-m`;
+        const geminiCmd = `gemini --dangerously-skip-permissions --model gemini-1.5-pro --append-system-prompt "\\$(cat GEMINI.md)"`;
+        const cmd = `tmux new-session -d -s ${agentId} -c "${agentDir}" && sleep 0.2 && tmux send-keys -t ${agentId}:0 '${geminiCmd}' && sleep 0.2 && tmux send-keys -t ${agentId}:0 C-m`;
         exec(cmd, (err, stdout, stderr) => {
             if (err) {
                 sendJSON(res, { error: 'Failed to start agent', details: stderr }, 500);
@@ -191,7 +191,7 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // GET /api/agent/:agentId/info - CLAUDE.md 내용 반환
+    // GET /api/agent/:agentId/info - GEMINI.md 내용 반환
     const infoMatch = pathname.match(/^\/api\/agent\/([a-z-]+)\/info$/);
     if (infoMatch && req.method === 'GET') {
         const agentId = infoMatch[1];
@@ -199,10 +199,10 @@ const server = http.createServer((req, res) => {
             sendJSON(res, { error: 'Agent not found' }, 404);
             return;
         }
-        const claudeMdPath = path.join(AGENTS_DIR, agentId, 'CLAUDE.md');
-        fs.readFile(claudeMdPath, 'utf8', (err, content) => {
+        const geminiMdPath = path.join(AGENTS_DIR, agentId, 'GEMINI.md');
+        fs.readFile(geminiMdPath, 'utf8', (err, content) => {
             if (err) {
-                sendJSON(res, { id: agentId, content: '# CLAUDE.md not found\n\nNo documentation available.' });
+                sendJSON(res, { id: agentId, content: '# GEMINI.md not found\n\nNo documentation available.' });
             } else {
                 sendJSON(res, { id: agentId, content });
             }
@@ -273,36 +273,36 @@ const server = http.createServer((req, res) => {
                                     console.error(`[Restart] Failed to create session ${agentId}:`, err.message);
                                 }
 
-                                // All sessions created, start claude
+                                // All sessions created, start gemini
                                 if (sessionsCreated === totalAgents) {
-                                    console.log('[Restart] All sessions created. Starting Claude instances...');
+                                    console.log('[Restart] All sessions created. Starting Gemini instances...');
 
                                     setTimeout(() => {
-                                        let claudeStarted = 0;
+                                        let geminiStarted = 0;
 
-                                        // Step 2: Start claude in each session
+                                        // Step 2: Start gemini in each session
                                         AGENTS.forEach(agentId => {
                                             // Note: In production, model should come from config
-                                            // For now using opus as default (matching config.sh defaults)
-                                            const claudeCmd = `claude --dangerously-skip-permissions --model opus --append-system-prompt "\\$(cat CLAUDE.md)"`;
-                                            const startCmd = `tmux send-keys -t ${agentId}:0 '${claudeCmd}' Enter`;
+                                            // For now using gemini-1.5-pro as default (matching config.sh defaults)
+                                            const geminiCmd = `gemini --dangerously-skip-permissions --model gemini-1.5-pro --append-system-prompt "\\$(cat GEMINI.md)"`;
+                                            const startCmd = `tmux send-keys -t ${agentId}:0 '${geminiCmd}' Enter`;
 
                                             exec(startCmd, (err) => {
-                                                claudeStarted++;
+                                                geminiStarted++;
                                                 if (!err) {
-                                                    console.log(`[Restart] Claude started: ${agentId}`);
+                                                    console.log(`[Restart] Gemini started: ${agentId}`);
                                                 }
 
-                                                // All claude instances started, wait and send init messages
-                                                if (claudeStarted === totalAgents) {
-                                                    console.log('[Restart] All Claude instances started. Waiting 8 seconds for initialization...');
+                                                // All gemini instances started, wait and send init messages
+                                                if (geminiStarted === totalAgents) {
+                                                    console.log('[Restart] All Gemini instances started. Waiting 8 seconds for initialization...');
 
-                                                    // Step 3: Wait for Claude to fully initialize, then send init messages
+                                                    // Step 3: Wait for Gemini to fully initialize, then send init messages
                                                     setTimeout(() => {
                                                         console.log('[Restart] Sending initialization messages to all agents...');
 
                                                         // Orchestrator message
-                                                        const orchestratorMsg = '시스템 초기화 완료. 당신은 오케스트레이터입니다. CLAUDE.md에 정의된 역할과 규칙을 반드시 준수하세요. 사용자의 프로젝트 요청을 받으면 절대 직접 코드를 작성하지 말고, 전문 에이전트들에게 tmux를 통해 작업을 위임하세요.';
+                                                        const orchestratorMsg = '시스템 초기화 완료. 당신은 오케스트레이터입니다. GEMINI.md에 정의된 역할과 규칙을 반드시 준수하세요. 사용자의 프로젝트 요청을 받으면 절대 직접 코드를 작성하지 말고, 전문 에이전트들에게 tmux를 통해 작업을 위임하세요.';
                                                         exec(`tmux send-keys -t orchestrator:0 "${orchestratorMsg}" Enter`, (err) => {
                                                             if (!err) {
                                                                 console.log('[Restart] Sent init message to orchestrator');
@@ -310,7 +310,7 @@ const server = http.createServer((req, res) => {
                                                         });
 
                                                         // Other agents message
-                                                        const agentMsg = '시스템 초기화 완료. CLAUDE.md에 정의된 역할과 규칙을 반드시 준수하세요. 작업 완료 시 반드시 시그널 파일을 생성하고 상태를 업데이트하세요.';
+                                                        const agentMsg = '시스템 초기화 완료. GEMINI.md에 정의된 역할과 규칙을 반드시 준수하세요. 작업 완료 시 반드시 시그널 파일을 생성하고 상태를 업데이트하세요.';
                                                         let msgsSent = 0;
 
                                                         AGENTS.forEach(agentId => {
@@ -328,7 +328,7 @@ const server = http.createServer((req, res) => {
                                                                 }, msgsSent * 500); // Stagger messages by 500ms
                                                             }
                                                         });
-                                                    }, 8000); // Wait 8 seconds for Claude to initialize
+                                                    }, 8000); // Wait 8 seconds for Gemini to initialize
                                                 }
                                             });
                                         });
