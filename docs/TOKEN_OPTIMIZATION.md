@@ -17,7 +17,7 @@
 
 ## 1. 현재 토큰 소모 분석
 
-### 1.1 CLAUDE.md 파일 크기
+### 1.1 GEMINI.md 파일 크기
 
 각 에이전트의 시스템 프롬프트 크기:
 
@@ -35,7 +35,7 @@
 | **총합** | **782 lines** | **~6,650 tokens** | |
 
 **문제:**
-- 매 세션 시작 시 CLAUDE.md 전체가 시스템 프롬프트로 로드됨
+- 매 세션 시작 시 GEMINI.md 전체가 시스템 프롬프트로 로드됨
 - 각 에이전트가 응답할 때마다 시스템 프롬프트가 컨텍스트에 포함됨
 - 9개 에이전트 × 평균 740 tokens = **~6,650 tokens** (시작 시에만)
 
@@ -70,26 +70,26 @@
 
 ```
 orchestrator 세션:
-  - 시작 시: CLAUDE.md (1,500 tokens) 로드 × 1회 = 1,500 tokens
+  - 시작 시: GEMINI.md (1,500 tokens) 로드 × 1회 = 1,500 tokens
 
 requirement-analyst 세션:
-  - 시작 시: CLAUDE.md (1,200 tokens) 로드 × 1회 = 1,200 tokens
+  - 시작 시: GEMINI.md (1,200 tokens) 로드 × 1회 = 1,200 tokens
 
 developer 세션:
-  - 시작 시: CLAUDE.md (500 tokens) 로드 × 1회 = 500 tokens
+  - 시작 시: GEMINI.md (500 tokens) 로드 × 1회 = 500 tokens
 ```
 
 **시스템 프롬프트 총합 (9개 에이전트):** ~6,650 tokens (1회만)
 
 **단, 주의사항:**
-Claude API는 매 요청마다 전체 대화 컨텍스트를 포함합니다. 따라서:
+Gemini API는 매 요청마다 전체 대화 컨텍스트를 포함합니다. 따라서:
 - 세션이 길어질수록 누적 컨텍스트가 증가
 - orchestrator는 20번 응답 → 대화 히스토리가 계속 쌓임
 - 하지만 시스템 프롬프트 자체는 1회만 카운트
 
 #### B. 불필요한 상세 지시문
 
-**예: Orchestrator CLAUDE.md (171 lines)**
+**예: Orchestrator GEMINI.md (171 lines)**
 
 ```markdown
 ## 워크플로우 단계
@@ -115,7 +115,7 @@ Claude API는 매 요청마다 전체 대화 컨텍스트를 포함합니다. �
 
 #### C. 예제 코드 중복
 
-**예: Requirement Analyst CLAUDE.md**
+**예: Requirement Analyst GEMINI.md**
 
 ```markdown
 ## 요구사항 초안 작성
@@ -260,7 +260,7 @@ echo "✅ requirement-analyst 완료"
 
 #### B. 간결한 응답 생성
 
-**Before: orchestrator/CLAUDE.md (171 lines)**
+**Before: orchestrator/GEMINI.md (171 lines)**
 
 ```markdown
 # Orchestrator Agent
@@ -303,7 +303,7 @@ echo "✅ requirement-analyst 완료"
 ```
 ```
 
-**After: orchestrator/CLAUDE.md (40 lines 목표)**
+**After: orchestrator/GEMINI.md (40 lines 목표)**
 
 ```markdown
 # Orchestrator Agent
@@ -345,13 +345,13 @@ workspace/
 ```
 
 **장점:**
-- CLAUDE.md는 핵심만 (20-50 lines)
+- GEMINI.md는 핵심만 (20-50 lines)
 - 필요할 때만 외부 문서를 Read tool로 참조
 - Read는 1회만 발생, 시스템 프롬프트는 매 응답마다 발생
 
 #### C. 템플릿 파일 분리
 
-**Before: requirement-analyst/CLAUDE.md**
+**Before: requirement-analyst/GEMINI.md**
 
 ```markdown
 ## 요구사항 초안 작성
@@ -382,7 +382,7 @@ workspace/
 (30+ lines)
 ```
 
-**After: requirement-analyst/CLAUDE.md**
+**After: requirement-analyst/GEMINI.md**
 
 ```markdown
 ## 요구사항 초안 작성
@@ -563,7 +563,7 @@ echo "idle" > /workspace/status/requirement-analyst.status
 
 **단점:**
 - 에러 발생 시 복구 어려움
-- 각 에이전트 CLAUDE.md가 복잡해짐
+- 각 에이전트 GEMINI.md가 복잡해짐
 
 **절감:** Orchestrator 작업 70% 감소 = **~10,000 tokens**
 
@@ -571,28 +571,28 @@ echo "idle" > /workspace/status/requirement-analyst.status
 
 #### A. 에이전트별 적절한 모델 사용
 
-**현재:** 모든 에이전트가 Sonnet 4.5
+**현재:** 모든 에이전트가 Gemini 1.5 Pro
 
 **제안:**
 
 | 에이전트 | 현재 모델 | 제안 모델 | 이유 |
 |---------|----------|----------|------|
-| Orchestrator | Sonnet 4.5 | **Sonnet 4.5** | 복잡한 조율 필요 |
-| Requirement Analyst | Sonnet 4.5 | **Sonnet 4.5** | 고도의 분석 필요 |
-| UX Designer | Sonnet 4.5 | **Haiku** | 템플릿 기반 작업 |
-| Tech Architect | Sonnet 4.5 | **Sonnet 4.5** | 기술 판단 필요 |
-| Planner | Sonnet 4.5 | **Haiku** | 구조화된 작업 |
-| Test Designer | Sonnet 4.5 | **Haiku** | 템플릿 기반 테스트 |
-| Developer | Sonnet 4.5 | **Sonnet 4.5** | 복잡한 코드 작성 |
-| Reviewer | Sonnet 4.5 | **Haiku** | 체크리스트 기반 |
-| Documenter | Sonnet 4.5 | **Haiku** | 문서 정리 작업 |
+| Orchestrator | Gemini 1.5 Pro | **Gemini 1.5 Pro** | 복잡한 조율 필요 |
+| Requirement Analyst | Gemini 1.5 Pro | **Gemini 1.5 Pro** | 고도의 분석 필요 |
+| UX Designer | Gemini 1.5 Pro | **Gemini 1.5 Flash** | 템플릿 기반 작업 |
+| Tech Architect | Gemini 1.5 Pro | **Gemini 1.5 Pro** | 기술 판단 필요 |
+| Planner | Gemini 1.5 Pro | **Gemini 1.5 Flash** | 구조화된 작업 |
+| Test Designer | Gemini 1.5 Pro | **Gemini 1.5 Flash** | 템플릿 기반 테스트 |
+| Developer | Gemini 1.5 Pro | **Gemini 1.5 Pro** | 복잡한 코드 작성 |
+| Reviewer | Gemini 1.5 Pro | **Gemini 1.5 Flash** | 체크리스트 기반 |
+| Documenter | Gemini 1.5 Pro | **Gemini 1.5 Flash** | 문서 정리 작업 |
 
-**Haiku 특징:**
-- 속도: Sonnet의 3배 빠름
-- 비용: Sonnet의 1/10
+**Gemini 1.5 Flash 특징:**
+- 속도: Pro 대비 빠름
+- 비용: Pro 대비 저렴
 - 성능: 간단한 작업에 충분
 
-**절감:** 5개 에이전트 × 평균 5,000 tokens = **~25,000 tokens를 Haiku로** = 비용 90% 절감
+**절감:** 5개 에이전트 × 평균 5,000 tokens = **~25,000 tokens를 Flash로** = 비용 절감
 
 #### B. 모델 지정 방법
 
@@ -601,12 +601,12 @@ echo "idle" > /workspace/status/requirement-analyst.status
 for agent in "${AGENTS[@]}"; do
     # 에이전트별 모델 선택
     if [[ "$agent" == "ux-designer" ]] || [[ "$agent" == "planner" ]] || [[ "$agent" == "test-designer" ]] || [[ "$agent" == "reviewer" ]] || [[ "$agent" == "documenter" ]]; then
-        MODEL="haiku"
+        MODEL="gemini-1.5-flash"
     else
-        MODEL="sonnet"
+        MODEL="gemini-1.5-pro"
     fi
 
-    tmux send-keys -t "$agent:0" "claude --dangerously-skip-permissions --model $MODEL --append-system-prompt \"\$(cat CLAUDE.md)\""
+    tmux send-keys -t "$agent:0" "gemini --dangerously-skip-permissions --model $MODEL --append-system-prompt \"\$(cat GEMINI.md)\""
     sleep 0.2
     tmux send-keys -t "$agent:0" C-m
 done
@@ -660,7 +660,7 @@ SIGNAL
 ### 우선순위 1: 시스템 프롬프트 간소화 (즉시 구현 가능)
 
 **작업:**
-1. 각 CLAUDE.md 파일을 20-50 lines로 축소
+1. 각 GEMINI.md 파일을 20-50 lines로 축소
 2. 상세 절차는 `/workspace/docs/` 로 분리
 3. 템플릿은 `/workspace/templates/` 로 분리
 
@@ -709,8 +709,8 @@ cat > workspace/templates/requirements-draft-template.md << 'EOF'
 ...
 EOF
 
-# 4. CLAUDE.md 간소화
-cat > workspace/agents/orchestrator/CLAUDE.md << 'EOF'
+# 4. GEMINI.md 간소화
+cat > workspace/agents/orchestrator/GEMINI.md << 'EOF'
 # Orchestrator Agent
 
 당신은 중앙 제어 오케스트레이터입니다.
@@ -736,11 +736,11 @@ EOF
 
 **작업:**
 1. start-sessions-auto.sh에 모델 선택 로직 추가
-2. 5개 에이전트를 Haiku로 변경
+2. 5개 에이전트를 Gemini 1.5 Flash로 변경
 
-**예상 절감:** 비용 50% 감소 (토큰 수는 동일하지만 비용 절감)
+**예상 절감:** 비용 감소 (토큰 수는 동일하지만 단가 절감)
 **난이도:** 낮음
-**품질 영향:** 낮음 (간단한 작업은 Haiku로 충분)
+**품질 영향:** 낮음 (간단한 작업은 Flash로 충분)
 
 ### 우선순위 3: 산출물 요약본 전달 (중기 구현)
 
@@ -789,29 +789,21 @@ EOF
 
 ### 5.2 비용 절감 (Model 다운그레이드 포함)
 
-**Sonnet 4.5 기준:**
-- Input: $3 / 1M tokens
-- Output: $15 / 1M tokens
+**Gemini 1.5 Pro 기준 비용**은 모델과 지역에 따라 변동됩니다. 최신 가격표를 확인한 뒤 아래 비율로 비용 절감 효과를 추정하세요.
 
-**현재 비용 (86,650 tokens, 모두 Sonnet):**
-- Input: ~43,000 tokens × $3 = $0.129
-- Output: ~43,000 tokens × $15 = $0.645
-- **총: $0.774 / 프로젝트**
+**현재 비용 (86,650 tokens, 모두 Pro):**
+- 기준 비용 = 100%
 
-**우선순위 1+2 적용 (82,000 tokens, 5개 Haiku):**
-- Sonnet Input: ~25,000 tokens × $3 = $0.075
-- Sonnet Output: ~25,000 tokens × $15 = $0.375
-- Haiku Input: ~16,000 tokens × $0.25 = $0.004
-- Haiku Output: ~16,000 tokens × $1.25 = $0.020
-- **총: $0.474 / 프로젝트 (-39%)**
+**우선순위 1+2 적용 (82,000 tokens, 5개 Flash):**
+- Pro+Flash 혼합으로 비용 절감 (Flash 단가가 더 낮음)
 
 **전체 최적화 적용:**
-- **총: $0.250 / 프로젝트 (-68%)**
+- 추가 절감 효과 기대 (토큰 절감 + Flash 비중 확대)
 
 ### 5.3 단계별 로드맵
 
 #### Phase 1 (1주일)
-- [ ] CLAUDE.md 간소화 (9개 에이전트)
+- [ ] GEMINI.md 간소화 (9개 에이전트)
 - [ ] docs/, templates/ 디렉토리 생성
 - [ ] 상세 문서 분리
 
@@ -819,7 +811,7 @@ EOF
 
 #### Phase 2 (1주일)
 - [ ] start-sessions-auto.sh 모델 선택 로직 추가
-- [ ] 5개 에이전트 Haiku로 변경
+- [ ] 5개 에이전트 Gemini 1.5 Flash로 변경
 - [ ] 테스트 및 품질 확인
 
 **예상 효과:** 비용 39% 절감
@@ -844,7 +836,7 @@ EOF
 
 ### 즉시 적용 (이번 주)
 
-1. **CLAUDE.md 간소화**
+1. **GEMINI.md 간소화**
    - 작업량: 중간
    - 효과: 중간
    - 리스크: 낮음
@@ -876,7 +868,7 @@ EOF
 
 ## 부록: 구현 예시
 
-### A. 간소화된 CLAUDE.md 템플릿
+### A. 간소화된 GEMINI.md 템플릿
 
 ```markdown
 # [Agent Name] Agent
@@ -918,22 +910,22 @@ SIGNAL
 
 # 에이전트별 모델 매핑
 declare -A AGENT_MODELS=(
-    ["orchestrator"]="sonnet"
-    ["requirement-analyst"]="sonnet"
-    ["ux-designer"]="haiku"
-    ["tech-architect"]="sonnet"
-    ["planner"]="haiku"
-    ["test-designer"]="haiku"
-    ["developer"]="sonnet"
-    ["reviewer"]="haiku"
-    ["documenter"]="haiku"
+    ["orchestrator"]="gemini-1.5-pro"
+    ["requirement-analyst"]="gemini-1.5-pro"
+    ["ux-designer"]="gemini-1.5-flash"
+    ["tech-architect"]="gemini-1.5-pro"
+    ["planner"]="gemini-1.5-flash"
+    ["test-designer"]="gemini-1.5-flash"
+    ["developer"]="gemini-1.5-pro"
+    ["reviewer"]="gemini-1.5-flash"
+    ["documenter"]="gemini-1.5-flash"
 )
 
 for agent in "${AGENTS[@]}"; do
     MODEL="${AGENT_MODELS[$agent]}"
 
     tmux new-session -d -s "$agent" -c "$AGENT_DIR"
-    tmux send-keys -t "$agent:0" "claude --dangerously-skip-permissions --model $MODEL --append-system-prompt \"\$(cat CLAUDE.md)\""
+    tmux send-keys -t "$agent:0" "gemini --dangerously-skip-permissions --model $MODEL --append-system-prompt \"\$(cat GEMINI.md)\""
     sleep 0.2
     tmux send-keys -t "$agent:0" C-m
 

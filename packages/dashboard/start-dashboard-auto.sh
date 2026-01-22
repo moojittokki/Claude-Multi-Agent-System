@@ -6,7 +6,7 @@
 # This script:
 # 1. Initializes workspace
 # 2. Sets up agents
-# 3. Starts tmux sessions with Claude Code (auto mode)
+# 3. Starts tmux sessions with Gemini CLI (auto mode)
 # 4. Starts ttyd instances for web terminals
 # 5. Starts dashboard HTTP server
 # =============================================================================
@@ -100,8 +100,8 @@ preflight_checks() {
         missing_deps+=("tmux (brew install tmux)")
     fi
 
-    if ! check_command "claude"; then
-        missing_deps+=("claude (Claude Code CLI)")
+    if ! check_command "gemini"; then
+        missing_deps+=("gemini (Gemini CLI)")
     fi
 
     if ! check_command "node"; then
@@ -184,11 +184,11 @@ cleanup_sessions() {
 }
 
 # =============================================================================
-# Step 5: Start Agent Sessions with Claude Code (Auto Mode)
+# Step 5: Start Agent Sessions with Gemini CLI (Auto Mode)
 # =============================================================================
 
 start_agent_sessions() {
-    log_info "Starting agent sessions with Claude Code (auto mode)..."
+    log_info "Starting agent sessions with Gemini CLI (auto mode)..."
 
     local agent_names=("orchestrator" "requirement-analyst" "ux-designer" "tech-architect" "planner" "test-designer" "developer" "reviewer" "documenter")
 
@@ -201,8 +201,8 @@ start_agent_sessions() {
         # Disable mouse mode for terminal scrollback
         tmux set-option -t "$agent" mouse off
 
-        # Send Claude command with auto mode
-        tmux send-keys -t "$agent:0" "claude --dangerously-skip-permissions --model opus --append-system-prompt \"\$(cat CLAUDE.md)\""
+        # Send Gemini command with auto mode
+        tmux send-keys -t "$agent:0" "gemini --dangerously-skip-permissions --model gemini-1.5-pro --append-system-prompt \"\$(cat GEMINI.md)\""
         sleep 0.2
         tmux send-keys -t "$agent:0" C-m
 
@@ -220,7 +220,7 @@ start_agent_sessions() {
 init_orchestrator_prompt() {
     log_info "Sending initial dispatcher prompt to orchestrator..."
 
-    sleep 2  # Wait for claude to fully start
+    sleep 2  # Wait for gemini to fully start
 
     local INIT_MESSAGE="당신은 디스패처(Dispatcher)입니다. 사용자의 프로젝트 요청을 받으면, 절대 직접 코드를 작성하지 말고 반드시 전문 에이전트들(requirement-analyst, ux-designer, tech-architect, planner, test-designer, developer, reviewer, documenter)에게 tmux를 통해 작업을 위임하세요. 각 에이전트에게 작업 지시 시 반드시 status 파일을 working/idle로 업데이트하고, 시그널 대기를 수행하세요."
 

@@ -7,18 +7,18 @@
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# 에이전트별 Claude 모델 설정
-# 사용 가능한 모델: opus, sonnet, haiku
+# 에이전트별 Gemini 모델 설정
+# 사용 가능한 모델: gemini-1.5-pro, gemini-1.5-flash 등
 # -----------------------------------------------------------------------------
-MODEL_orchestrator="opus"
-MODEL_requirement_analyst="opus"
-MODEL_ux_designer="opus"
-MODEL_tech_architect="opus"
-MODEL_planner="opus"
-MODEL_test_designer="opus"
-MODEL_developer="opus"
-MODEL_reviewer="opus"
-MODEL_documenter="opus"
+MODEL_orchestrator="gemini-1.5-pro"
+MODEL_requirement_analyst="gemini-1.5-pro"
+MODEL_ux_designer="gemini-1.5-pro"
+MODEL_tech_architect="gemini-1.5-pro"
+MODEL_planner="gemini-1.5-pro"
+MODEL_test_designer="gemini-1.5-pro"
+MODEL_developer="gemini-1.5-pro"
+MODEL_reviewer="gemini-1.5-pro"
+MODEL_documenter="gemini-1.5-pro"
 
 # 에이전트 이름으로 모델 조회 함수
 get_model() {
@@ -33,7 +33,7 @@ get_model() {
         developer) echo "$MODEL_developer" ;;
         reviewer) echo "$MODEL_reviewer" ;;
         documenter) echo "$MODEL_documenter" ;;
-        *) echo "opus" ;;
+        *) echo "gemini-1.5-pro" ;;
     esac
 }
 

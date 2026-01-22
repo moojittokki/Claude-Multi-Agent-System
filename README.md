@@ -3,9 +3,9 @@
 </p>
 <p align="center">AI agents collaborating to automate software development.</p>
 <p align="center">
-  <a href="https://github.com/Kuneosu/Claude-Multi-Agent-System/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Kuneosu/Claude-Multi-Agent-System?style=flat-square" /></a>
-  <a href="https://github.com/Kuneosu/Claude-Multi-Agent-System/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Kuneosu/Claude-Multi-Agent-System?style=flat-square" /></a>
-  <a href="https://github.com/Kuneosu/Claude-Multi-Agent-System/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Kuneosu/Claude-Multi-Agent-System?style=flat-square" /></a>
+  <a href="https://github.com/Kuneosu/Gemini-Multi-Agent-System/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Kuneosu/Gemini-Multi-Agent-System?style=flat-square" /></a>
+  <a href="https://github.com/Kuneosu/Gemini-Multi-Agent-System/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Kuneosu/Gemini-Multi-Agent-System?style=flat-square" /></a>
+  <a href="https://github.com/Kuneosu/Gemini-Multi-Agent-System/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Kuneosu/Gemini-Multi-Agent-System?style=flat-square" /></a>
 </p>
 <p align="center">
   <a href="./README.ko.md">한국어</a>
@@ -19,8 +19,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/Kuneosu/Claude-Multi-Agent-System.git
-cd Claude-Multi-Agent-System
+git clone https://github.com/Kuneosu/Gemini-Multi-Agent-System.git
+cd Gemini-Multi-Agent-System
 
 # Setup (check dependencies)
 ./setup.sh
@@ -30,7 +30,7 @@ cd Claude-Multi-Agent-System
 ```
 
 > [!TIP]
-> Make sure you have Claude CLI installed: `npm install -g @anthropic-ai/claude-code`
+> Make sure you have Gemini CLI installed: `npm install -g @google/gemini-cli`
 
 ### Requirements
 
@@ -38,7 +38,7 @@ cd Claude-Multi-Agent-System
 |------------|---------|----------|
 | Node.js | >= 14.0.0 | Yes |
 | tmux | latest | Yes |
-| Claude CLI | latest | Yes |
+| Gemini CLI | latest | Yes |
 | ttyd | latest | Optional (for dashboard) |
 
 ### Agents
@@ -73,7 +73,7 @@ Each agent has its own role and communicates through file-based IPC signals.
 - **Multi-Agent Collaboration**: 9 agents work together through orchestrated workflow
 - **TDD Approach**: Test Designer → Developer → Reviewer pipeline
 - **Web Dashboard**: Monitor all agents in real-time at `http://localhost:8080`
-- **Configurable Models**: Set Claude model (opus/sonnet/haiku) per agent
+- **Configurable Models**: Set Gemini model (gemini-1.5-pro/gemini-1.5-flash) per agent
 - **File-based IPC**: Reliable inter-agent communication via signals
 
 ### Documentation
@@ -116,21 +116,20 @@ MAS uses specialized agents for each development phase. Instead of one AI trying
 
 #### What models are supported?
 
-MAS is built on **Claude CLI** and supports:
-- Claude Opus (recommended for orchestrator, developer)
-- Claude Sonnet (balanced performance)
-- Claude Haiku (fast, cost-effective)
+MAS is built on **Gemini CLI** and supports:
+- Gemini 1.5 Pro (recommended for orchestrator, developer)
+- Gemini 1.5 Flash (fast, cost-effective)
 
 #### Can I customize the agents?
 
-Yes! Each agent's behavior is defined in `workspace/agents/[agent-name]/CLAUDE.md`. You can modify these prompts to customize agent behavior.
+Yes! Each agent's behavior is defined in `workspace/agents/[agent-name]/GEMINI.md`. You can modify these prompts to customize agent behavior.
 
 #### How much does it cost?
 
-We recommend using **Claude Max ($100/month) or higher** subscription plan. While costs vary by project complexity, the unlimited API access in Max plan provides the best experience.
+We recommend using a Gemini API plan that fits your usage. Pricing varies by model and usage, so review the latest Gemini API pricing for accurate estimates.
 
 > [!NOTE]
-> Sonnet and Haiku models may occasionally fail to follow instructions properly. For reliable results, we recommend using **Opus for all agents**.
+> For reliable results, we recommend using **Gemini 1.5 Pro for all agents** and switching to Flash models only when cost or latency is critical.
 
 ---
 

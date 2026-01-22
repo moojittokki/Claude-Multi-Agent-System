@@ -26,7 +26,7 @@ cat > "$WORKSPACE/README.md" << 'EOF'
 
 ```
 workspace/
-├── agents/           # 각 에이전트의 작업 디렉토리 (CLAUDE.md 포함)
+├── agents/           # 각 에이전트의 작업 디렉토리 (GEMINI.md 포함)
 ├── artifacts/        # 생성된 산출물 (requirements.md, ux-design.md 등)
 ├── callbacks/        # 콜백 파일
 ├── input/           # 사용자 입력 (user_request.txt 등)

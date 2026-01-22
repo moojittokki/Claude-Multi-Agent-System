@@ -3,9 +3,9 @@
 </p>
 <p align="center">AI 에이전트들이 협업하여 소프트웨어 개발을 자동화하는 시스템</p>
 <p align="center">
-  <a href="https://github.com/Kuneosu/Claude-Multi-Agent-System/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Kuneosu/Claude-Multi-Agent-System?style=flat-square" /></a>
-  <a href="https://github.com/Kuneosu/Claude-Multi-Agent-System/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Kuneosu/Claude-Multi-Agent-System?style=flat-square" /></a>
-  <a href="https://github.com/Kuneosu/Claude-Multi-Agent-System/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Kuneosu/Claude-Multi-Agent-System?style=flat-square" /></a>
+  <a href="https://github.com/Kuneosu/Gemini-Multi-Agent-System/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Kuneosu/Gemini-Multi-Agent-System?style=flat-square" /></a>
+  <a href="https://github.com/Kuneosu/Gemini-Multi-Agent-System/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Kuneosu/Gemini-Multi-Agent-System?style=flat-square" /></a>
+  <a href="https://github.com/Kuneosu/Gemini-Multi-Agent-System/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Kuneosu/Gemini-Multi-Agent-System?style=flat-square" /></a>
 </p>
 <p align="center">
   <a href="./README.md">English</a>
@@ -19,8 +19,8 @@
 
 ```bash
 # 저장소 클론
-git clone https://github.com/Kuneosu/Claude-Multi-Agent-System.git
-cd Claude-Multi-Agent-System
+git clone https://github.com/Kuneosu/Gemini-Multi-Agent-System.git
+cd Gemini-Multi-Agent-System
 
 # 설정 (의존성 확인)
 ./setup.sh
@@ -30,7 +30,7 @@ cd Claude-Multi-Agent-System
 ```
 
 > [!TIP]
-> Claude CLI가 설치되어 있어야 합니다: `npm install -g @anthropic-ai/claude-code`
+> Gemini CLI가 설치되어 있어야 합니다: `npm install -g @google/gemini-cli`
 
 ### 의존성
 
@@ -38,7 +38,7 @@ cd Claude-Multi-Agent-System
 |--------|------|----------|
 | Node.js | >= 14.0.0 | 필수 |
 | tmux | 최신 | 필수 |
-| Claude CLI | 최신 | 필수 |
+| Gemini CLI | 최신 | 필수 |
 | ttyd | 최신 | 선택 (대시보드용) |
 
 ### 에이전트
@@ -73,7 +73,7 @@ orchestrator (중앙 제어)
 - **멀티 에이전트 협업**: 9개 에이전트가 오케스트레이션된 워크플로우로 협업
 - **TDD 방식**: Test Designer → Developer → Reviewer 파이프라인
 - **웹 대시보드**: `http://localhost:8080`에서 실시간 모니터링
-- **모델 설정 가능**: 에이전트별 Claude 모델 설정 (opus/sonnet/haiku)
+- **모델 설정 가능**: 에이전트별 Gemini 모델 설정 (gemini-1.5-pro/gemini-1.5-flash)
 - **파일 기반 IPC**: 시그널을 통한 안정적인 에이전트 간 통신
 
 ### 문서
@@ -116,21 +116,20 @@ MAS는 각 개발 단계에 전문화된 에이전트를 사용합니다. 하나
 
 #### 어떤 모델을 지원하나요?
 
-MAS는 **Claude CLI** 기반으로 다음을 지원합니다:
-- Claude Opus (orchestrator, developer에 권장)
-- Claude Sonnet (균형 잡힌 성능)
-- Claude Haiku (빠르고 비용 효율적)
+MAS는 **Gemini CLI** 기반으로 다음을 지원합니다:
+- Gemini 1.5 Pro (orchestrator, developer에 권장)
+- Gemini 1.5 Flash (빠르고 비용 효율적)
 
 #### 에이전트를 커스터마이징할 수 있나요?
 
-네! 각 에이전트의 동작은 `workspace/agents/[agent-name]/CLAUDE.md`에 정의되어 있습니다. 이 프롬프트를 수정하여 에이전트 동작을 커스터마이징할 수 있습니다.
+네! 각 에이전트의 동작은 `workspace/agents/[agent-name]/GEMINI.md`에 정의되어 있습니다. 이 프롬프트를 수정하여 에이전트 동작을 커스터마이징할 수 있습니다.
 
 #### 비용은 얼마나 드나요?
 
-**Claude Max ($100/월) 이상** 요금제 사용을 권장합니다. 프로젝트 복잡도에 따라 비용이 달라지지만, Max 요금제의 무제한 API 접근이 가장 좋은 경험을 제공합니다.
+Gemini API 요금은 모델/사용량에 따라 달라집니다. 최신 가격 정책을 확인한 뒤 프로젝트에 맞는 요금제를 선택하세요.
 
 > [!NOTE]
-> Sonnet과 Haiku 모델은 간혹 지시를 제대로 수행하지 못하는 경우가 있습니다. 안정적인 결과를 위해 **모든 에이전트에 Opus 사용**을 권장합니다.
+> 안정적인 결과를 위해 **모든 에이전트에 Gemini 1.5 Pro 사용**을 권장합니다. 비용/지연 시간 최적화가 필요할 때만 Flash 모델을 사용하세요.
 
 ---
 

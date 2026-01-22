@@ -78,7 +78,7 @@ const AgentDashboard = {
         agentInfoModal: null,
         agentInfoModalClose: null,
         agentRoleSummary: null,
-        agentClaudeMdContent: null,
+        agentGeminiMdContent: null,
         shutdownButton: null,
         shutdownModal: null,
         shutdownModalClose: null,
@@ -162,7 +162,7 @@ const AgentDashboard = {
         this.elements.agentInfoModal = document.getElementById('agent-info-modal');
         this.elements.agentInfoModalClose = document.getElementById('agent-info-modal-close');
         this.elements.agentRoleSummary = document.getElementById('agent-role-summary');
-        this.elements.agentClaudeMdContent = document.getElementById('agent-claude-md-content');
+        this.elements.agentGeminiMdContent = document.getElementById('agent-gemini-md-content');
         this.elements.shutdownButton = document.getElementById('shutdown-button');
         this.elements.shutdownModal = document.getElementById('shutdown-modal');
         this.elements.shutdownModalClose = document.getElementById('shutdown-modal-close');
@@ -1424,15 +1424,15 @@ const AgentDashboard = {
             modalTitle.textContent = `${agent.fullName} 정보`;
         }
 
-        // Fetch CLAUDE.md content
-        if (this.elements.agentClaudeMdContent) {
-            this.elements.agentClaudeMdContent.textContent = '로딩 중...';
+        // Fetch GEMINI.md content
+        if (this.elements.agentGeminiMdContent) {
+            this.elements.agentGeminiMdContent.textContent = '로딩 중...';
             try {
                 const response = await fetch(`/api/agent/${agentId}/info`);
                 const data = await response.json();
-                this.elements.agentClaudeMdContent.textContent = data.content || 'No content';
+                this.elements.agentGeminiMdContent.textContent = data.content || 'No content';
             } catch (err) {
-                this.elements.agentClaudeMdContent.textContent = '내용을 불러올 수 없습니다.';
+                this.elements.agentGeminiMdContent.textContent = '내용을 불러올 수 없습니다.';
                 console.error('Failed to fetch agent info:', err);
             }
         }

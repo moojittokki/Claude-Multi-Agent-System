@@ -13,9 +13,9 @@ cd MAS  # 프로젝트 디렉토리로 이동
 
 1. ✅ 워크스페이스 초기화
 2. ✅ 이전 작업 정리
-3. ✅ 9개 에이전트 환경 설정 (각 CLAUDE.md 생성)
+3. ✅ 9개 에이전트 환경 설정 (각 GEMINI.md 생성)
 4. ✅ 기존 세션 정리
-5. ✅ 9개 tmux 세션 시작 (각 세션마다 Claude 실행)
+5. ✅ 9개 tmux 세션 시작 (각 세션마다 Gemini 실행)
 
 세션이 시작되면 **세션 모니터 화면**이 표시됩니다.
 
@@ -174,7 +174,7 @@ bash scripts/setup-workspace.sh
 
 # 2. 특정 에이전트만 시작
 tmux new-session -d -s developer -c workspace/agents/developer
-tmux send-keys -t developer:0 "claude -p CLAUDE.md" Enter
+tmux send-keys -t developer:0 "gemini -p GEMINI.md" Enter
 ```
 
 ### 작업 파일 직접 생성
@@ -208,7 +208,7 @@ tmux send-keys -t requirement-analyst:0 "새 작업이 있습니다" Enter
 시스템이 작동하는 것을 확인했다면:
 
 1. 간단한 프로젝트로 테스트
-2. 각 에이전트의 CLAUDE.md 커스터마이징
+2. 각 에이전트의 GEMINI.md 커스터마이징
 3. 워크플로우 단계 추가/수정
 4. 자동화 레벨 조정
 

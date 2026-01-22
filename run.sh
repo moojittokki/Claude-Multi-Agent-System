@@ -128,7 +128,7 @@ check_dependencies() {
 
     command -v node &>/dev/null || missing+=("node")
     command -v tmux &>/dev/null || missing+=("tmux")
-    command -v claude &>/dev/null || missing+=("claude")
+    command -v gemini &>/dev/null || missing+=("gemini")
 
     if [ ${#missing[@]} -gt 0 ]; then
         echo -e "${RED}필수 의존성이 설치되지 않았습니다:${NC}"
@@ -139,7 +139,7 @@ check_dependencies() {
         echo "먼저 의존성을 설치해주세요:"
         echo "  node/npm: brew install node"
         echo "  tmux: brew install tmux"
-        echo "  claude: npm install -g @anthropic-ai/claude-code"
+        echo "  gemini: npm install -g @google/gemini-cli"
         exit 1
     fi
 }
@@ -579,10 +579,10 @@ first_time_setup() {
         echo -e "  ${GREEN}✓${NC} tmux: $(tmux -V)"
     fi
 
-    if ! command -v claude &>/dev/null; then
-        missing+=("Claude CLI: npm install -g @anthropic-ai/claude-code")
+    if ! command -v gemini &>/dev/null; then
+        missing+=("Gemini CLI: npm install -g @google/gemini-cli")
     else
-        echo -e "  ${GREEN}✓${NC} Claude CLI: 설치됨"
+        echo -e "  ${GREEN}✓${NC} Gemini CLI: 설치됨"
     fi
 
     if ! command -v ttyd &>/dev/null; then
